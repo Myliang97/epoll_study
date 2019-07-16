@@ -102,7 +102,7 @@ void send_data(int fd,int event,void *arg)
 	set_event_node(node,fd,event,node,rev_data);//写完数据把监听事件该为读
 	add_event(node);
 }
-void del_event(eventNode *node)
+void del_event(const eventNode *node)
 {
 	if(!node->status)
 		return;

@@ -24,7 +24,7 @@ void set_event_node(eventNode *node,int fd,int event,void *arg,void (*callback)(
 void add_event(eventNode *node);
 
 /*  从红黑树上删除   */
-void del_event(eventNode *node);
+void del_event(const eventNode *node);
 
 /*  子线程阻塞等待客户端    */
 void *accept_clients(void *arg);

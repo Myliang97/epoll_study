@@ -1,16 +1,4 @@
 
-/****************
- * 线程池模型：
- * 1.系统全局控制器：保存线程池地址，保存任务队列地址...
- * 2.线程池：等待任务条件变量，调用回调函数
- * 3.任务队列：保存客户端的任务函数指针
- * 4.管理者线程：负责添加或者销毁线程
- */
-/*
- *1.初始化并创建一定量的线程等待 2.任务队列加入任务
- *3.线程寻找任务 4.管理者线程检测线程池状态，判断系统是否忙
- *5.系统忙则创建新的线程，不忙，就用条件变量杀死部分线程
- */
 #include "pthread_pool.h"
 
 //工作线程的回调函数
@@ -113,7 +101,7 @@ void *manage_pthread(void *arg)
     pthread_exit(NULL);
 }
 ///添加任务至任务队列
-void add_task(eventNode *node)
+void add_task(const eventNode *node)
 {
     pthread_mutex_lock(&p_cntl.lock_self);
     if(p_cntl.task_index == p_cntl.max_pthread_num)  //任务队列已满

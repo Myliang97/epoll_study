@@ -6,14 +6,14 @@
 typedef struct
 {
     pthread_t pid;
-    int work;
-    int live;
+    int work;                 //是否在工作，用于判断杀死进程
+    int live;                //是否存活，当live==0时，在线程池中会被新线程覆盖
 }pthread;
 typedef struct 
 {
-    pthread_mutex_t lock_self;
-    pthread_cond_t lock_tasks_que;
-    pthread_cond_t lock_que_full;
+    pthread_mutex_t lock_self;         //用于锁住整个结构体
+    pthread_cond_t lock_tasks_que;     //条件变量，通知线程执行任务
+    pthread_cond_t lock_que_full;     //条件变量，判断任务队列是否有空位置，添加新任务判断
 
     pthread *pool;              //线程池
     eventNode *task_queue[MAX_TASK];         //任务队列
@@ -42,7 +42,7 @@ void *pthread_callback(void *arg);
 void *manage_pthread(void *arg);
 
 /*  添加任务至任务队列 */
-void add_task(eventNode *node);
+void add_task(const eventNode *node);
 
 /*  添加线程  */
 void add_thread();
