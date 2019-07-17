@@ -3,12 +3,20 @@
 #define  MAX_TASK 100
 #define  MIN_PTHREAD 10
 #define  MAX_PTHREAD 100
+
+/*
+    对pthread_t的封装结构体
+*/
 typedef struct
 {
     pthread_t pid;
     int work;                 //是否在工作，用于判断杀死进程
     int live;                //是否存活，当live==0时，在线程池中会被新线程覆盖
 }pthread;
+
+/*
+    该结构体保存了任务队列，线程池，管理者线程等等信息
+*/
 typedef struct 
 {
     pthread_mutex_t lock_self;         //用于锁住整个结构体
@@ -30,18 +38,28 @@ typedef struct
     int del_pthread_num;              //减少的线程数
     int exit;                         //退出
 }pthread_cntl;
-pthread_cntl p_cntl;    //全局的控制器
+pthread_cntl p_cntl;    
 
-/*  线程池初始化  */
+/*  线程池初始化  
+    没有参数和返回值
+*/
 void init_pool();
 
-/*  工作线程的回调函数  */
+/*  工作线程的回调函数  
+    参数为一个void *类型的指针，用它来指向自定义线程结构体
+    没有返回值
+*/
 void *pthread_callback(void *arg);
 
-/*  管理者线程的回调函数 */
+/*  管理者线程的回调函数 
+    参数为NULL    
+*/
 void *manage_pthread(void *arg);
 
-/*  添加任务至任务队列 */
+/*  添加任务至任务队列 
+    参数为一个eventNode结构体指针
+    没有返回值
+*/
 void add_task(const eventNode *node);
 
 /*  添加线程  */
